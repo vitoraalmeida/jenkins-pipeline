@@ -1,15 +1,19 @@
 pipeline {
     agent any
     stages {
-        stage ('clone-repo') {
+        stage ('Git checkout') {
             steps {
-                echo "clonning"
+                echo "clonning..."
                 git branch: 'main', url: "https://github.com/vitoraalmeida/forum"
+                sh 'ls'
             }
         }
         stage ('test') {
             steps {
-                echo "testing app"
+                echo "executing gradle test app..."
+                gradle('gradle-7.4.1') {
+                    sh 'gradle test'
+                }
             }
         }
         stage ('buid') {
