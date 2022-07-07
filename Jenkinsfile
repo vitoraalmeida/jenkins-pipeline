@@ -4,7 +4,7 @@ pipeline {
         stage ('clone-repo') {
             steps {
                 echo "clonning"
-                git url: "https://github.com/vitoraalmeida/forum"
+                git branch: 'main', url: "https://github.com/vitoraalmeida/forum"
             }
         }
         stage ('test') {
