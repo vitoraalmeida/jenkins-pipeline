@@ -11,7 +11,7 @@ pipeline {
         stage ('test') {
             steps {
                 echo "executing gradle test app..."
-                sh './gradlew clean test --no-daemon'
+                sh 'gradle clean test'
             }
         }
         stage ('buid') {
