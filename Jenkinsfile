@@ -36,7 +36,7 @@ node {
 def clone_projects(list) {
     list.each { item ->
         echo "creating ${item} directory"
-        dir(${item}) {
+        dir("${item}") {
             echo "clonning ${item}"
             git branch: 'main', url: "https://github.com/vitoraalmeida/${item}"
         }
