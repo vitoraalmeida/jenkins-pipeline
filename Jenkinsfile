@@ -1,9 +1,7 @@
 projects = ["forum", "leilao"]
 node {
     stage ('clone repos') {
-        @NonCPS
-        list.each { item ->
-            echo "creating ${item} directory"
+        for(project in projects) {
             dir("${item}") {
                 echo "dentro de ${item}"
                 //git branch: 'main', url: "https://github.com/vitoraalmeida/${item}"
