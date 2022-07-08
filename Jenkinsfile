@@ -1,5 +1,6 @@
 projects = ["forum", "leilao"]
 node {
+    cleanWs()
     stage ('clone repos') {
         for(project in projects) {
             dir("${project}") {
@@ -12,7 +13,8 @@ node {
     stage ('clone repos') {
         for(project in projects) {
             dir("${project}") {
-                sh 'ls'
+                echo "Executing cyclonedxBom in ${project}"
+                sh './gradlew cyclonedxBom -info'
             }
         }
     }
