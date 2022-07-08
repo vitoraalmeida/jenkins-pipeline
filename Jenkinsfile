@@ -10,13 +10,13 @@ node {
         }
         sh 'ls'
     }
-    stage ('clone repos') {
+    stage ('execute cyclonedxBom') {
         for(project in projects) {
             dir("${project}") {
                 if (fileExists('pom.xml')) {
                     withMaven(maven: 'maven-default') {
                         echo "Executing cyclonedxBom in ${project}"
-                        sh 'mvn install'
+                        sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom''
                     }
                 } else {
                     echo "Executing cyclonedxBom in ${project}"
