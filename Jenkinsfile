@@ -32,8 +32,8 @@ pipeline {
             }
         }
         stage('loop over list') {
-            echo "executing loop"
             script {
+                echo "executing loop"
                 def projects = ["forum", "leilão"]
                 for (int i = 0; i < browsers.size(); ++i) {
                     echo "${projects[i]}" 
