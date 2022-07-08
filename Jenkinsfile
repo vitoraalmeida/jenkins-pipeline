@@ -31,6 +31,15 @@ pipeline {
                 }
             }
         }
+        stage('loop over list') {
+            echo "executing loop"
+            script {
+                def projects = ["forum", "leilão"]
+                for (int i = 0; i < browsers.size(); ++i) {
+                    echo "${projects[i]}" 
+                } 
+            }
+        }
     }
 
     post {
