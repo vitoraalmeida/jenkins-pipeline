@@ -16,7 +16,7 @@ node {
                 if (fileExists('pom.xml')) {
                     withMaven {
                         echo "Executing cyclonedxBom in ${project}"
-                        sh 'mvn clean install'
+                        sh 'mvn install'
                     }
                 } else {
                     echo "Executing cyclonedxBom in ${project}"
