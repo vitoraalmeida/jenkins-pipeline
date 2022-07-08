@@ -13,7 +13,7 @@ node {
     stage ('clone repos') {
         for(project in projects) {
             dir("${project}") {
-                if (fileExists 'pom.xml') {
+                if (fileExists('pom.xml')) {
                     echo "Executing cyclonedxBom in ${project}"
                     sh 'mvn clean install'
                 } else {
