@@ -32,12 +32,14 @@ pipeline {
             }
         }
         stage('loop over list') {
-            script {
+            steps {
                 echo "executing loop"
-                def projects = ["forum", "leilão"]
-                for (int i = 0; i < browsers.size(); ++i) {
-                    echo "${projects[i]}" 
-                } 
+                script {
+                    def projects = ["forum", "leilão"]
+                    for (int i = 0; i < browsers.size(); ++i) {
+                        echo "${projects[i]}" 
+                    } 
+                }
             }
         }
     }
