@@ -13,8 +13,13 @@ node {
     stage ('clone repos') {
         for(project in projects) {
             dir("${project}") {
-                echo "Executing cyclonedxBom in ${project}"
-                sh './gradlew cyclonedxBom -info'
+                if (fileExists 'pom.xml') {
+                    echo "Executing cyclonedxBom in ${project}"
+                    sh 'mvn clean install'
+                } else {
+                    echo "Executing cyclonedxBom in ${project}"
+                    sh './gradlew cyclonedxBom -info'
+                }
             }
         }
     }
