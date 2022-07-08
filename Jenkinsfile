@@ -9,12 +9,14 @@ pipeline {
             }
         }
 
+/*
         stage ('build') {
             steps {
                 echo "building app"
                 sh './gradlew assemble'
             }
         }
+*/
 
         stage ('cyclonedx') {
             steps {
