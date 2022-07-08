@@ -9,6 +9,13 @@ node {
         }
         sh 'ls'
     }
+    stage ('clone repos') {
+        for(project in projects) {
+            dir("${project}") {
+                sh 'ls'
+            }
+        }
+    }
 
 /*
     stage ('build') {
