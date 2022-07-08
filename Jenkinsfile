@@ -14,7 +14,7 @@ node {
         for(project in projects) {
             dir("${project}") {
                 if (fileExists('pom.xml')) {
-                    withMaven {
+                    withMaven(maven: 'maven-default' {
                         echo "Executing cyclonedxBom in ${project}"
                         sh 'mvn install'
                     }
