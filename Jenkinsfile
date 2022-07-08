@@ -2,8 +2,8 @@ projects = ["forum", "leilao"]
 node {
     stage ('clone repos') {
         for(project in projects) {
-            dir("${item}") {
-                echo "dentro de ${item}"
+            dir("${project}") {
+                echo "dentro de ${project}"
                 //git branch: 'main', url: "https://github.com/vitoraalmeida/${item}"
             }
         }
