@@ -16,10 +16,10 @@ pipeline {
             }
         }
 
-        stage ('test') {
+        stage ('cyclonedx') {
             steps {
                 echo "executing gradle test app..."
-                sh './gradlew test'
+                sh './gradlew cyclonedxBom -info'
             }
         }
     }
