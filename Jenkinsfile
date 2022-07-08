@@ -1,5 +1,5 @@
 projects = ["forum", "leilão"]
-node ('master') {
+node {
     stage ('Git checkout') {
         echo "clonning..."
         git branch: 'main', url: "https://github.com/vitoraalmeida/forum"
