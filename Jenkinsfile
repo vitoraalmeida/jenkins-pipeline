@@ -1,5 +1,5 @@
 projects = ["forum", "leilão"]
-node {
+node ('master') {
     stage ('Git checkout') {
         echo "clonning..."
         git branch: 'main', url: "https://github.com/vitoraalmeida/forum"
@@ -27,11 +27,15 @@ node {
     }
 
     stage('loop over list') {
-        for (int i = 0; i < browsers.size(); ++i) {
-            echo "${projects[i]}" 
-        } 
+        loop_of_sh(projects)
     }
 
     cleanWs()
 }
 
+@NonCPS
+def loop_of_sh(list) {
+    list.each { item ->
+        sh "echo Hello ${item}"
+    }
+}
