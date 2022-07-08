@@ -8,15 +8,18 @@ pipeline {
                 sh 'ls'
             }
         }
+
+        stage ('build') {
+            steps {
+                echo "building app"
+                sh './gradlew assemble'
+            }
+        }
+
         stage ('test') {
             steps {
                 echo "executing gradle test app..."
-                sh './gradlew clean test'
-            }
-        }
-        stage ('buid') {
-            steps {
-                echo "building app"
+                sh './gradlew test'
             }
         }
     }
