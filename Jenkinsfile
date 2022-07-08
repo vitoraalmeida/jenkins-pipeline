@@ -1,7 +1,3 @@
-tools {
-    maven 'maven-default'
-}
-
 projects = ["forum", "leilao"]
 node {
     cleanWs()
@@ -18,8 +14,10 @@ node {
         for(project in projects) {
             dir("${project}") {
                 if (fileExists('pom.xml')) {
-                    echo "Executing cyclonedxBom in ${project}"
-                    sh 'mvn clean install'
+                    withMaven {
+                        echo "Executing cyclonedxBom in ${project}"
+                        sh 'mvn clean install'
+                    }
                 } else {
                     echo "Executing cyclonedxBom in ${project}"
                     sh './gradlew cyclonedxBom -info'
