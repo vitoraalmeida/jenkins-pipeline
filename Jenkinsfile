@@ -1,3 +1,7 @@
+tools {
+    maven 'maven-default'
+}
+
 projects = ["forum", "leilao"]
 node {
     cleanWs()
