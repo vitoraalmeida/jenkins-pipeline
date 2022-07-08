@@ -1,8 +1,13 @@
 projects = ["forum", "leilao"]
 node {
     stage ('clone repos') {
-        clone_projects(projects)
-        sh 'ls'
+        list.each { item ->
+            echo "creating ${item} directory"
+            dir("${item}") {
+                echo "dentro de ${item}"
+                //git branch: 'main', url: "https://github.com/vitoraalmeida/${item}"
+            }
+        }
     }
 
 /*
@@ -12,7 +17,6 @@ node {
             sh './gradlew assemble'
         }
     }
-*/
 
     stage ('cyclonedx') {
         dir('forum') {
@@ -32,20 +36,4 @@ node {
     cleanWs()
 }
 
-@NonCPS
-def clone_projects(list) {
-    list.each { item ->
-        echo "creating ${item} directory"
-        dir("${item}") {
-            echo "help"
-            //git branch: 'main', url: "https://github.com/vitoraalmeida/${item}"
-        }
-    }
-}
-
-@NonCPS
-def loop_of_sh(list) {
-    list.each { item ->
-        echo "Hello ${item}"
-    }
-}
+*/
