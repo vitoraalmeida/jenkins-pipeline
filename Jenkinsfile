@@ -1,3 +1,4 @@
+projects = ["forum", "leilão"]
 node {
     stage ('Git checkout') {
         echo "clonning..."
@@ -26,7 +27,6 @@ node {
     }
 
     stage('loop over list') {
-        def projects = ["forum", "leilão"]
         for (int i = 0; i < browsers.size(); ++i) {
             echo "${projects[i]}" 
         } 
