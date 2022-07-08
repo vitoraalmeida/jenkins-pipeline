@@ -1,6 +1,7 @@
 projects = ["forum", "leilao"]
 node {
     stage ('clone repos') {
+        @NonCPS
         list.each { item ->
             echo "creating ${item} directory"
             dir("${item}") {
