@@ -4,9 +4,10 @@ node {
         for(project in projects) {
             dir("${project}") {
                 echo "dentro de ${project}"
-                //git branch: 'main', url: "https://github.com/vitoraalmeida/${item}"
+                git branch: 'main', url: "https://github.com/vitoraalmeida/${project}"
             }
         }
+        sh 'ls'
     }
 
 /*
