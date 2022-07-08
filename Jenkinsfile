@@ -1,8 +1,7 @@
-projects = ["forum", "leilão"]
+projects = ["forum", "leilao"]
 node {
-    stage ('Git checkout') {
-        echo "clonning..."
-        git branch: 'main', url: "https://github.com/vitoraalmeida/forum"
+    stage ('clone repos') {
+        clone_projects(projects)
         sh 'ls'
     }
 
@@ -16,21 +15,32 @@ node {
 */
 
     stage ('cyclonedx') {
-        echo "executing gradle test app..."
-        sh './gradlew cyclonedxBom -info'
-    }
-
-    stage('dependencyTrackPublisher') {
-        withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
-            dependencyTrackPublisher artifact: 'build/reports/bom.xml', projectName: 'forum', projectVersion: '1', synchronous: true, dependencyTrackApiKey: API_KEY
+        dir('forum') {
+            echo "executing gradle test app..."
+            sh './gradlew cyclonedxBom -info'
         }
     }
 
-    stage('loop over list') {
-        loop_of_sh(projects)
+    stage('dependencyTrackPublisher') {
+        dir('forum'){
+            withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
+                dependencyTrackPublisher artifact: 'build/reports/bom.xml', projectName: 'forum', projectVersion: '1', synchronous: true, dependencyTrackApiKey: API_KEY
+            }
+        }
     }
 
     cleanWs()
+}
+
+@NonCPS
+def clone_projects(list) {
+    list.each { item ->
+        echo "creating ${item} directory"
+        dir(item) {
+            echo "clonning ${item}"
+            git branch: 'main', url: "https://github.com/vitoraalmeida/${item}"
+        }
+    }
 }
 
 @NonCPS
