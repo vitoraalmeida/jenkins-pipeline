@@ -30,6 +30,7 @@ node {
             dir("${project}") {
                 // recupera a credencial do dependency track e armazena na variável KEY
                 withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
+                    sh('echo $KEY')
                     sendBOM(KEY, project, "1")
                 }
             }
