@@ -39,14 +39,12 @@ node {
                        contentType: 'multipart/form-data', fileName: 'bom',
                        uploadFile: BOM_FILE]],
                        httpMode: 'POST', quiet: true, responseHandle: 'NONE', timeout: null,
-                       url: DEPENDENCY_TRACK_UPLOAD_URL,
+                       url: DEPENDENCY_TRACK_UPLOAD_URL
                 }
             }
         }
     }
 }
 
-def sendBOM(apiKey, project, version) {
-}
 
 
