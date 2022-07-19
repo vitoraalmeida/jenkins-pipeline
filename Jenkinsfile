@@ -2,7 +2,7 @@ projects = ["forum"]
 
 GRADLE = "./gradlew" //caminho para binário do gradle
 BOM_FILE = "./build/reports/bom.xml"
-DEPENDENCY_TRACK_UPLOAD_URL = "http://localhost:8081/api/v1/bom"
+DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.1.2:8081/api/v1/bom"
 
 node {
     cleanWs()
