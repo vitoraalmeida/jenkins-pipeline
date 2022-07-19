@@ -1,71 +1,47 @@
-projects = ["forum", "leilao"]
+projects = ["forum"]
+
+GRADLE = "./gradlew" //caminho para binário do gradle
+BOM_FILE = "./build/reports/bom.xml"
+DEPENDENCY_TRACK_UPLOAD_URL = "http://localhost:8081/api/v1/bom"
+
 node {
     cleanWs()
+
     stage ('clone repos') {
         for(project in projects) {
             dir("${project}") {
-                echo "dentro de ${project}"
+                echo "Clonando ${project}"
                 git branch: 'main', url: "https://github.com/vitoraalmeida/${project}"
             }
         }
-        sh 'ls'
     }
+
     stage ('execute cyclonedxBom') {
         for(project in projects) {
             dir("${project}") {
-                if (fileExists('pom.xml')) {
-                    withMaven(maven: 'maven-default') {
-                        echo "Executing cyclonedxBom in ${project}"
-                        sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
-                    }
-                } else {
-                    echo "Executing cyclonedxBom in ${project}"
-                    sh './gradlew cyclonedxBom -info'
-                }
+                echo "Executanddo cyclonedxBom em ${project}"
+                sh "${GRADLE} cyclonedxBom -info"
             }
         }
     }
 
-    stage('dependencyTrackPublisher') {
+    stage('publish to dependency track') {
         for(project in projects) {
             dir("${project}") {
-                if (fileExists('./target')) {
-                    withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
-                        dependencyTrackPublisher artifact: 'target/bom.xml', projectName: "${project}", projectVersion: '1', synchronous: true, dependencyTrackApiKey: API_KEY
-                    }
-                } else {
-                    withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
-                        dependencyTrackPublisher artifact: 'build/reports/bom.xml', projectName: "${project}", projectVersion: '1', synchronous: true, dependencyTrackApiKey: API_KEY
-                    }
+                // recupera a credencial do dependency track e armazena na variável KEY
+                withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
+                    sendBOM(KEY, project, "1")
                 }
             }
         }
     }
-
-/*
-    stage ('build') {
-        steps {
-            echo "building app"
-            sh './gradlew assemble'
-        }
-    }
-
-    stage ('cyclonedx') {
-        dir('forum') {
-            echo "executing gradle test app..."
-            sh './gradlew cyclonedxBom -info'
-        }
-    }
-
-    stage('dependencyTrackPublisher') {
-        dir('forum'){
-            withCredentials([string(credentialsId: 'dependency-track', variable: 'API_KEY')]) {
-                dependencyTrackPublisher artifact: 'build/reports/bom.xml', projectName: 'forum', projectVersion: '1', synchronous: true, dependencyTrackApiKey: API_KEY
-            }
-        }
-    }
-
-    cleanWs()
-*/
 }
+
+def sendBOM(apiKey, project, version) {
+    sh "curl -X POST ${DEPENDENCY_TRACK_UPLOAD_URL} -H 'accept: application/json' " +
+       "-H 'Content-Type: multipart/form-data' -H 'X-API-KEY: ${apiKey}' " +
+       "-F 'autoCreate=True' -F 'projectName=${project}' -F 'projectVersion=${version}' " +
+       "-F bom=@${BOM_FILE}"
+}
+
 
