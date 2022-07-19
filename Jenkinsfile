@@ -38,10 +38,10 @@ node {
 }
 
 def sendBOM(apiKey, project, version) {
-    sh 'curl -X POST $DEPENDENCY_TRACK_UPLOAD_URL -H \'accept: application/json\' ' +
-       '-H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $apiKey\' ' +
-       '-F \'autoCreate=True\' -F \'projectName=$project\' -F \'projectVersion=$version\' ' +
-       '-F bom=@$BOM_FILE'
+    sh "curl -X POST ${DEPENDENCY_TRACK_UPLOAD_URL} -H 'accept: application/json' " +
+       "-H 'Content-Type: multipart/form-data' " + '-H \'X-API-KEY: $apiKey\' ' +
+       "-F 'autoCreate=True' -F 'projectName=${project}' -F 'projectVersion=${version}' " +
+       "-F bom=@${BOM_FILE}"
 }
 
 
