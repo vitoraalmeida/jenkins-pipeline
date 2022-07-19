@@ -36,7 +36,7 @@ node {
                                      "projectName" : "${project}",
                                      "projectVersion": "1"
                                     }''',
-                       contentType: 'multipart/form-data', fileName: 'bom',
+                       contentType: 'multipart/form-data', fileName: 'bom', name: 'data',
                        uploadFile: BOM_FILE]],
                        httpMode: 'POST', quiet: true, responseHandle: 'NONE', timeout: null,
                        url: DEPENDENCY_TRACK_UPLOAD_URL
