@@ -36,7 +36,7 @@ node {
                         sh 'curl -i -X POST $DEPENDENCY_TRACK_UPLOAD_URL -H \'accept: application/json\' ' + 
                            '-H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $KEY\' ' + 
                            '-F \'autoCreate=True\' -F \'projectName=$project\' ' +
-                           '-F \'projectVersion=1\'-F bom=@$BOM_FILE"
+                           '-F \'projectVersion=1\'-F bom=@$BOM_FILE'
 
                     }
                 }
