@@ -30,20 +30,16 @@ node {
             dir("${project}") {
                 // recupera a credencial do dependency track e armazena na variável KEY
                 withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                    sh 'curl -X POST ${DEPENDENCY_TRACK_UPLOAD_URL} -H \'accept: application/json\' ' + 
-                       '-H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $apiKey\' ' + 
-                       '-F \'autoCreate=True\' -F \'projectName=${project}\' ' +
-                       '-F \'projectVersion=${version}\'-F bom=@${BOM_FILE}"")
-                        httpRequest acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_FORM_DATA',
-                           formData: [[body: '''{
-                                         "autoCreate" : "True",
-                                         "projectName" : "${project}",
-                                         "projectVersion": "1"
-                                        }''',
-                           contentType: 'multipart/form-data', fileName: 'bom',
-                           uploadFile: BOM_FILE]],
-                           httpMode: 'POST', quiet: true, responseHandle: 'NONE', timeout: null,
-                           url: DEPENDENCY_TRACK_UPLOAD_URL,
+                    httpRequest acceptType: 'APPLICATION_JSON', contentType: 'APPLICATION_FORM_DATA',
+                       formData: [[body: '''{
+                                     "autoCreate" : "True",
+                                     "projectName" : "${project}",
+                                     "projectVersion": "1"
+                                    }''',
+                       contentType: 'multipart/form-data', fileName: 'bom',
+                       uploadFile: BOM_FILE]],
+                       httpMode: 'POST', quiet: true, responseHandle: 'NONE', timeout: null,
+                       url: DEPENDENCY_TRACK_UPLOAD_URL,
                 }
             }
         }
