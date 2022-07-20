@@ -33,7 +33,8 @@ node {
                          "PROJECT=${project}",
                          "FILE=${BOM_FILE}"]){
                     withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                        sh('curl -X POST $URL -H \'accept: application/json\' -H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $KEY\' -F \'autoCreate=True\' -F \'projectName=$PROJECT\' -F \'projectVersion=1\' -F bom=@$FILE')
+                        sh('curl -X POST $URL -H X-API-KEY: $KEY')
+                        //sh('curl -X POST $URL -H \'accept: application/json\' -H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $KEY\' -F \'autoCreate=True\' -F \'projectName=$PROJECT\' -F \'projectVersion=1\' -F bom=@$FILE')
                     }
                 }
             }
