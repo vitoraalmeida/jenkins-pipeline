@@ -7,7 +7,6 @@ DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.1.2:8081/api/v1/bom"
 node {
     cleanWs()
 
-/*
     stage ('clone repos') {
         for(project in projects) {
             dir("${project}") {
@@ -25,7 +24,6 @@ node {
             }
         }
     }
-    */
 
     stage('publish to dependency track') {
         for(project in projects) {
