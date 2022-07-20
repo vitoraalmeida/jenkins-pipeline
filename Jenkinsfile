@@ -33,7 +33,7 @@ node {
                 // recupera a credencial do dependency track e armazena na variável KEY
                 withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}"]){
                     withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                        sh('echo $KEY $URL')
+                        sh('echo $KEY' + ' $URL')
                     }
                 }
             }
