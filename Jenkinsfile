@@ -7,6 +7,7 @@ DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.1.2:8081/api/v1/bom"
 node {
     cleanWs()
 
+/*
     stage ('clone repos') {
         for(project in projects) {
             dir("${project}") {
@@ -24,15 +25,14 @@ node {
             }
         }
     }
+    */
 
     stage('publish to dependency track') {
         for(project in projects) {
             dir("${project}") {
-                def PROJECT = project
-                def URL = DEPENDENCY_TRACK_UPLOAD_URL
                 // recupera a credencial do dependency track e armazena na variável KEY
                 withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                    sh("curl -i -X POST ${URL} -H \'accept: application/json\' -H \'Content-Type: multipart/form-data\'" + ' -H \'X-API-KEY: $KEY\'')
+                    sh('echo $KEY')
                 }
             }
         }
