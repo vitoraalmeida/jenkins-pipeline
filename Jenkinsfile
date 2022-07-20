@@ -29,9 +29,10 @@ node {
         for(project in projects) {
             dir("${project}") {
                 def PROJECT = project
+                def URL = DEPENDENCY_TRACK_UPLOAD_URL
                 // recupera a credencial do dependency track e armazena na variável KEY
                 withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                    sh('curl -i -X POST $DEPENDENCY_TRACK_UPLOAD_URL -H \'accept: application/json\' -H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $KEY\' -F \'autoCreate=True\' -F \'projectName=$PROJECT\' -F \'projectVersion=1\' -F bom=@$BOM_FILE')
+                    sh('curl -i -X POST $URL -H \'accept: application/json\' -H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $KEY\'')
                 }
             }
         }
