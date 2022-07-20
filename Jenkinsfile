@@ -31,9 +31,14 @@ node {
         for(project in projects) {
             dir("${project}") {
                 // recupera a credencial do dependency track e armazena na variável KEY
-                withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}"]){
+                withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
+                         "PROJECT=${project}",
+                         "FILE=${BOM_FILE}"]){
                     withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                        sh('echo $KEY' + ' $URL')
+                        sh('curl -X POST $URL -H \'accept: application/json\' ' +
+                           '-H \'Content-Type: multipart/form-data\' -H \'X-API-KEY: $KEY\' ' +
+                           '-F \'autoCreate=True\' -F \'projectName=$PROJECT\'' +
+                           '-F \'projectVersion=1\' -F bom=@$BOM_FILE')
                     }
                 }
             }
