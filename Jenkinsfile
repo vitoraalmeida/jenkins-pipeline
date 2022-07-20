@@ -31,9 +31,9 @@ node {
         for(project in projects) {
             dir("${project}") {
                 // recupera a credencial do dependency track e armazena na variável KEY
-                withEnv(['DEPENDENCY_TRACK_UPLOAD_URL=http://192.168.1.2:8081/api/v1/bom']){
+                withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}"]){
                     withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                        sh('echo $KEY $DEPENDENCY_TRACK_UPLOAD_URL')
+                        sh('echo $KEY $URL')
                     }
                 }
             }
