@@ -14,9 +14,8 @@ node {
     stage ('call security pipeline') {
         def projects = params.PROJECT
         projects.tokenize('\n').each { project ->
-            echo project.toString()
             try{
-                build job: 'security-pipeline', parameters: [$class: 'StringParameterValue', name: 'PROJECT', value: project.toString()], wait: false
+                build job: 'security-pipeline', parameters: [[$class: 'StringParameterValue', name: 'PROJECT', value: project]], wait: false
             }catch(Exception e) {
                 echo e
             }
