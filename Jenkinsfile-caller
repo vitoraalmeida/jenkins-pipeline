@@ -16,7 +16,7 @@ node {
         def projects = params.PROJECT
         projects.tokenize('\n').each { project ->
             try{
-                build job: 'security-pipeline', parameters: [[$class: 'StringParameterValue', name: 'PROJECT', value: project]], wait: false
+                build job: 'security-pipeline', parameters: [[$class: 'StringParameterValue', name: 'PROJECT', value: project]]
             }catch(Exception e) {
                 echo e
             }
