@@ -1,0 +1,11 @@
+projects = ["forum", "leilao"]
+
+node {
+    cleanWs()
+    stage ('call security pipeline') {
+        for(project in projects) {
+            build job: 'security-pipeline', parameters: [[$class: 'StringParameterValue', name: 'PROJECT', value: project]]
+        }
+    }
+}
+
