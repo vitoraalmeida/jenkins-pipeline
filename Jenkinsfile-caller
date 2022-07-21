@@ -19,7 +19,6 @@ node {
             }catch(Exception e) {
                 echo e
             }
-            sleep(time:20,unit:"SECONDS")
         }
     }
 }
