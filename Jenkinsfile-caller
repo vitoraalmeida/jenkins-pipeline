@@ -12,7 +12,7 @@ node {
     cleanWs()
 
     stage ('call security pipeline') {
-        def projects = params.PROJECTS
+        def projects = params.PROJECT
         projects.tokenize('\n').each { project ->
             try{
                 build job: 'security-pipeline', parameters: [$class: 'StringParameterValue', name: 'PROJECT', value: project], wait: false
