@@ -16,28 +16,22 @@ node {
     cleanWs()
     def PROJECT = params.PROJECT
     stage ('clone repos') {
-        dir("${PROJECT}") {
-            echo "Clonando ${PROJECT}"
-            git branch: 'main', url: "https://github.com/vitoraalmeida/${PROJECT}"
-        }
+        echo "Clonando ${PROJECT}"
+        git branch: 'main', url: "https://github.com/vitoraalmeida/${PROJECT}"
     }
 
     stage ('execute cyclonedxBom') {
-        dir("${PROJECT}") {
-            echo "Executanddo cyclonedxBom em ${PROJECT}"
-            sh "${GRADLE} cyclonedxBom -info"
-        }
+        echo "Executanddo cyclonedxBom em ${PROJECT}"
+        sh "${GRADLE} cyclonedxBom -info"
     }
 
     stage('publish to dependency track') {
-        dir("${PROJECT}") {
-            // recupera a credencial do dependency track e armazena na variável KEY
-            withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
-                     "PROJECT=${PROJECT}",
-                     "FILE=${BOM_FILE}"]){
-                withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                    sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
-                }
+        // recupera a credencial do dependency track e armazena na variável KEY
+        withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
+                 "PROJECT=${PROJECT}",
+                 "FILE=${BOM_FILE}"]){
+            withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
+                sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
             }
         }
     }
