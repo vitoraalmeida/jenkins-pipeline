@@ -1,11 +1,25 @@
-projects = ["forum", "leilao"]
+//projects = ["forum", "leilao"]
+
+properties(
+    [
+        parameters([
+                string(name: 'PROJECTS'),
+        ])   
+    ]
+)  
 
 node {
     cleanWs()
+
     stage ('call security pipeline') {
-        for(project in projects) {
-            build job: 'security-pipeline', parameters: [[$class: 'StringParameterValue', name: 'PROJECT', value: project]]
+        def projects = params.PROJECTS
+        projects.tokenize(',').each { project ->
+            try{
+                build job: 'security-pipeline', parameters: [$class: 'StringParameterValue', name: 'PROJECT', value: project], wait: false
+            }catch(Exception e) {
+                echo e
+            }
+            sleep(time:20,unit:"SECONDS")
         }
     }
 }
-
