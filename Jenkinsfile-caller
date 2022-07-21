@@ -3,7 +3,7 @@
 properties(
     [
         parameters([
-                string(name: 'PROJECTS'),
+                text(name: 'PROJECTS'),
         ])   
     ]
 )  
@@ -13,7 +13,7 @@ node {
 
     stage ('call security pipeline') {
         def projects = params.PROJECTS
-        projects.tokenize(',').each { project ->
+        projects.tokenize('\n').each { project ->
             try{
                 build job: 'security-pipeline', parameters: [$class: 'StringParameterValue', name: 'PROJECT', value: project], wait: false
             }catch(Exception e) {

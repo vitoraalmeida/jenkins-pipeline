@@ -7,7 +7,7 @@ DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.1.2:8081/api/v1/bom"
 properties(
     [
         parameters([
-                string(name: 'PROJECT'),
+                text(name: 'PROJECT', defaultValue: 'primeiro\nsegundo\nterceiro', description: 'Passe uma lista de projetos, um em cada linha'),
         ])   
     ]
 )  
