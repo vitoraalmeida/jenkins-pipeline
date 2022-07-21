@@ -1,9 +1,10 @@
-//projects = ["forum", "leilao"]
+projects = """forum
+leilao"""
 
 properties(
     [
         parameters([
-                text(name: 'PROJECT', defaultValue: 'primeiro\nsegundo\nterceiro', description: 'Passe uma lista de projetos, um em cada linha'),
+                text(name: 'PROJECT', defaultValue: projects, description: 'Passe uma lista de projetos, um em cada linha'),
         ])   
     ]
 )  
