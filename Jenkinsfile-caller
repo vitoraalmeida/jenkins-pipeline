@@ -3,7 +3,7 @@
 properties(
     [
         parameters([
-                text(name: 'PROJECTS'),
+                text(name: 'PROJECT', defaultValue: 'primeiro\nsegundo\nterceiro', description: 'Passe uma lista de projetos, um em cada linha'),
         ])   
     ]
 )  
