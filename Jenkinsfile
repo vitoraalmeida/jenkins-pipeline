@@ -1,5 +1,3 @@
-projects = ["forum"]
-
 GRADLE = "./gradlew" //caminho para binário do gradle
 BOM_FILE = "./build/reports/bom.xml"
 DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.104:8081/api/v1/bom"
@@ -7,6 +5,7 @@ DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.104:8081/api/v1/bom"
 properties(
     [
         parameters([
+                string(name: 'ORG'),
                 string(name: 'PROJECT'),
         ])   
     ]
@@ -17,7 +16,7 @@ node {
     def PROJECT = params.PROJECT
     stage ('clone repos') {
         echo "Clonando ${PROJECT}"
-        git branch: 'main', url: "https://github.com/vitoraalmeida/${PROJECT}"
+        git branch: 'main', url: "https://github.com/${ORG}/${PROJECT}"
     }
 
     stage ('execute cyclonedxBom') {
