@@ -1,5 +1,4 @@
 GRADLE = "./gradlew" //caminho para binário do gradle
-BOM_FILE = "./build/reports/bom.xml"
 DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.104:8081/api/v1/bom"
 
 properties(
@@ -36,6 +35,13 @@ node {
 
     stage('publish to dependency track') {
         // recupera a credencial do dependency track e armazena na variável KEY
+        if (BUILD_TOOl == 'GRADLE') {
+            def BOM_FILE = "./build/reports/bom.xml"
+        } else {
+            def BOM_FILE = "teste"
+            echo "não vai funcionar"
+        }
+
         withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
                  "PROJECT=${PROJECT}",
                  "FILE=${BOM_FILE}"]){
