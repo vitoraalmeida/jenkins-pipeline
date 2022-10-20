@@ -7,6 +7,10 @@ properties(
         parameters([
                 string(name: 'ORG'),
                 string(name: 'PROJECT'),
+                choice(
+                    choices: ['GRADLE', 'COMPOSER'],
+                    name: 'BUILD_TOOL'
+                ),
         ])   
     ]
 )  
@@ -20,8 +24,14 @@ node {
     }
 
     stage ('execute cyclonedxBom') {
-        echo "Executanddo cyclonedxBom em ${PROJECT}"
-        sh "${GRADLE} cyclonedxBom -info --no-daemon"
+        if (${BUILD_TOOL == 'GRADLE') {
+            echo "Executando cyclonedxBom em ${PROJECT}"
+            sh "${GRADLE} cyclonedxBom -info --no-daemon"
+        } else if (${BUILD_TOOL == 'COMPOSER') {
+            echo "execute compose"
+        } else {
+            echo "Linguagem não suportada"
+        }
     }
 
     stage('publish to dependency track') {
