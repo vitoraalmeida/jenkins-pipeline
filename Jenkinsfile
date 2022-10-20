@@ -24,10 +24,10 @@ node {
     }
 
     stage ('execute cyclonedxBom') {
-        if (params.BUILD_TOOL == 'GRADLE') {
+        if (BUILD_TOOL == 'GRADLE') {
             echo "Executando cyclonedxBom em ${PROJECT}"
             sh "${GRADLE} cyclonedxBom -info --no-daemon"
-        } else if (params.BUILD_TOOL == 'COMPOSER') {
+        } else if (BUILD_TOOL == 'COMPOSER') {
             echo "execute compose"
         } else {
             echo "Linguagem não suportada"
