@@ -40,7 +40,6 @@ node {
                  "PROJECT=${PROJECT}",
                  "FILE=get_bom_location()"]){
             sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
-            }
         }
     }
 }
