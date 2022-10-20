@@ -35,7 +35,6 @@ node {
 
     stage('publish to dependency track') {
         // recupera a credencial do dependency track e armazena na variável KEY
-        def BOM_FILE = BUILD_TOOL == 
         withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
                  "PROJECT=${PROJECT}",
                  "FILE=${get_bom_location()}"]){
