@@ -38,7 +38,7 @@ node {
         def BOM_FILE = BUILD_TOOL == 
         withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
                  "PROJECT=${PROJECT}",
-                 "FILE=get_bom_location()"]){
+                 "FILE=${get_bom_location()}"]){
             sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
         }
     }
