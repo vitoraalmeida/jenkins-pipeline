@@ -25,7 +25,7 @@ node {
     stage ('execute cyclonedxBom') {
         if (BUILD_TOOL == 'GRADLE') {
             echo "Executando cyclonedxBom em ${PROJECT}"
-            sh "${GRADLE} cyclonedxBom -info --no-daemon"
+            sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
             echo "execute compose"
         } else {
