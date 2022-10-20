@@ -39,8 +39,7 @@ node {
         withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
                  "PROJECT=${PROJECT}",
                  "FILE=get_bom_location()"]){
-            withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
-                sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
+            sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
             }
         }
     }
