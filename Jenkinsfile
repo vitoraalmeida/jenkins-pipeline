@@ -35,19 +35,21 @@ node {
 
     stage('publish to dependency track') {
         // recupera a credencial do dependency track e armazena na variável KEY
-        if (BUILD_TOOl == 'GRADLE') {
-            def BOM_FILE = "./build/reports/bom.xml"
-        } else {
-            def BOM_FILE = "teste"
-            echo "não vai funcionar"
-        }
-
+        def BOM_FILE = BUILD_TOOL == 
         withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
                  "PROJECT=${PROJECT}",
-                 "FILE=${BOM_FILE}"]){
+                 "FILE=get_bom_location()"]){
             withCredentials([string(credentialsId: 'dependency-track', variable: 'KEY')]) {
                 sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
             }
         }
+    }
+}
+
+def get_bom_location() {
+    if (BUILD_TOOL == 'GRADLE') {
+        return "./build/reports/bom.xml"
+    } else {
+        return "erro"
     }
 }
