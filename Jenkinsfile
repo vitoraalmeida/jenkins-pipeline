@@ -21,7 +21,7 @@ node {
 
     stage ('execute cyclonedxBom') {
         echo "Executanddo cyclonedxBom em ${PROJECT}"
-        sh "${GRADLE} cyclonedxBom -info"
+        sh "${GRADLE} cyclonedxBom -info --no-daemon"
     }
 
     stage('publish to dependency track') {
