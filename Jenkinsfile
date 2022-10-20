@@ -47,7 +47,9 @@ node {
 def get_bom_location() {
     if (BUILD_TOOL == 'GRADLE') {
         return "./build/reports/bom.xml"
+    } else if (BUILD_TOOL == 'COMPOSER') {
+        return ".location/composer"
     } else {
-        return "erro"
+        echo "Linguagem não suportada"
     }
 }
