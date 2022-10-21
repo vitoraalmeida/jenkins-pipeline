@@ -53,6 +53,7 @@ node {
     stage('publish to dependency track') {
         // recupera a credencial do dependency track e armazena na variável KEY
         withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
+                 "ORG=${ORG}",
                  "PROJECT=${PROJECT}",
                  "FILE=${getBomLocation()}",
                  "VERSION=${getVersion()}",]){
