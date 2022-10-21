@@ -28,7 +28,7 @@ node {
             echo "Executando cyclonedxBom em ${PROJECT}"
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
-            docker.image('bitnami/php-fpm:latest').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
+            docker.image('php:7.4-cli').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
                 stage("Prepare folders") {
                     sh "mkdir /tmp/jenkins-workspace"
                 }
