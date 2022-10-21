@@ -42,9 +42,6 @@ node {
                     sh "php composer.phar install"
                 }
 
-                stage("Run tests") {
-                    sh "vendor/bin/phpunit"
-                }
 
             }
         } else {
