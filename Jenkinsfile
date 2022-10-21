@@ -28,7 +28,25 @@ node {
             echo "Executando cyclonedxBom em ${PROJECT}"
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
-            echo "execute compose"
+            docker.image('bitnami/php-fpm:latest').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
+                stage("Prepare folders") {
+                    sh "mkdir /tmp/jenkins-workspace"
+                }
+
+                stage("Get Composer") {
+                    sh "php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\""
+                    sh "php composer-setup.php"
+                }
+
+                stage("Install dependencies") {
+                    sh "php composer.phar install"
+                }
+
+                stage("Run tests") {
+                    sh "vendor/bin/phpunit"
+                }
+
+            }
         } else {
             echo "Linguagem não suportada"
         }
