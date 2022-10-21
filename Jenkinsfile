@@ -38,12 +38,16 @@ node {
                     sh "php composer-setup.php"
                 }
 
-                stage("Install dependencies") {
-                    sh "php composer.phar install"
-                }
+                //stage("Install dependencies") {
+                //    sh "php composer.phar install"
+                //}
 
                 stage("Install dependencies") {
                     sh "php composer.phar require --dev cyclonedx/cyclonedx-php-composer"
+                }
+
+                stage("Install dependencies") {
+                    sh "php composer.phar make-bom"
                 }
 
 
