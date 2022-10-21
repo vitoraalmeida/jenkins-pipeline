@@ -28,18 +28,9 @@ node {
             echo "Executando cyclonedxBom em ${PROJECT}"
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
-            docker.image('bitnami/php-fpm').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
+            docker.image('composer').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
                 stage("Prepare folders") {
                     sh "mkdir /tmp/jenkins-workspace"
-                }
-
-                stage("install git") {
-                    sh "apt update && apt upgrade && apt install git"
-                }
-
-                stage("Get Composer") {
-                    sh "php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\""
-                    sh "php composer-setup.php"
                 }
 
                 //stage("Install dependencies") {
@@ -47,11 +38,11 @@ node {
                 //}
 
                 stage("Install dependencies") {
-                    sh "php composer.phar require --dev cyclonedx/cyclonedx-php-composer"
+                    sh "composer require --dev cyclonedx/cyclonedx-php-composer"
                 }
 
                 stage("Install dependencies") {
-                        sh "php composer.phar make-bom"
+                        sh "composer make-bom"
                 }
 
 
