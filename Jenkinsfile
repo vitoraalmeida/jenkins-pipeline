@@ -29,10 +29,6 @@ node {
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
             docker.image('composer').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
-                stage("Prepare folders") {
-                    sh "mkdir /tmp/jenkins-workspace"
-                }
-
                 //stage("Install dependencies") {
                 //    sh "php composer.phar install"
                 //}
