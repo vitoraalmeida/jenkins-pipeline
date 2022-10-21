@@ -33,6 +33,10 @@ node {
                     sh "mkdir /tmp/jenkins-workspace"
                 }
 
+                stage("install git") {
+                    sh "apt update && apt upgrade && apt install git"
+                }
+
                 stage("Get Composer") {
                     sh "php -r \"copy('https://getcomposer.org/installer', 'composer-setup.php');\""
                     sh "php composer-setup.php"
@@ -47,7 +51,7 @@ node {
                 }
 
                 stage("Install dependencies") {
-                    sh "php composer.phar make-bom"
+                        sh "php composer.phar make-bom"
                 }
 
 
