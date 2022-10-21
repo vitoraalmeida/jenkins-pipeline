@@ -34,6 +34,7 @@ node {
                 }
 
                 stage("install git") {
+                    sh "sudo su"
                     sh "apt update && apt upgrade && apt install git"
                 }
 
