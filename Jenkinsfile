@@ -40,7 +40,9 @@ node {
                  "PROJECT=${PROJECT}",
                  "FILE=${getBomLocation()}",
                  "VERSION=${getVersion()}",]){
-            sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=$VERSION -F bom=@$FILE $URL')
+            withCredentials([string(credentialsId: 'dtrack', variable: 'KEY')]) {
+                sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=$VERSION -F bom=@$FILE $URL')
+            }
         }
     }
 }
