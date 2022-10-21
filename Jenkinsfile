@@ -42,6 +42,10 @@ node {
                     sh "php composer.phar install"
                 }
 
+                stage("Install dependencies") {
+                    sh "php composer.phar require --dev cyclonedx/cyclonedx-php-composer"
+                }
+
 
             }
         } else {
