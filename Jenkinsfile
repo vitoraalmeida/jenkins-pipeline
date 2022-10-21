@@ -1,5 +1,6 @@
 GRADLE = "./gradlew" //caminho para binário do gradle
 DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.104:8081/api/v1/bom"
+VERSION_FILE_GRADLE = "./gradle.properties"
 
 properties(
     [
@@ -37,17 +38,43 @@ node {
         // recupera a credencial do dependency track e armazena na variável KEY
         withEnv(["URL=${DEPENDENCY_TRACK_UPLOAD_URL}",
                  "PROJECT=${PROJECT}",
-                 "FILE=${get_bom_location()}"]){
-            sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=1 -F bom=@$FILE $URL')
+                 "FILE=${getBomLocation()}",
+                 "VERSION=${getVersion()}",]){
+            sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$PROJECT -F projectVersion=$VERSION -F bom=@$FILE $URL')
         }
     }
 }
 
-def get_bom_location() {
+def getVersion() {
+    if (BUILD_TOOL == 'GRADLE') {
+        getVersionGradle()
+    } else if (BUILD_TOOL == 'COMPOSER') {
+        getVersionComposer()
+    } else {
+        echo "Linguagem não suportada"
+    }
+}
+
+def getVersionGradle() {
+    def lines = readFile(VERSION_FILE_GRADLE).split("\n")
+    def result = "not_found"
+    for (line in lines) {
+        if (line.contains("version")) {
+            result = line.split("=")[1].trim()
+        }
+    }
+    return result.replace(" ","_")
+}
+
+def getVersionComposer() {
+    return "1.0"
+}
+
+def getBomLocation() {
     if (BUILD_TOOL == 'GRADLE') {
         return "./build/reports/bom.xml"
     } else if (BUILD_TOOL == 'COMPOSER') {
-        return ".location/composer"
+        return "localização do composer"
     } else {
         echo "Linguagem não suportada"
     }
