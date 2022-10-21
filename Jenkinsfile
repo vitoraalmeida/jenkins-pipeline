@@ -34,6 +34,7 @@ node {
                 //}
 
                 stage("Install dependencies") {
+                    sh "composer config --no-plugins allow-plugins.cyclonedx/cyclonedx-php-composer true"
                     sh "composer require --dev cyclonedx/cyclonedx-php-composer"
                 }
 
