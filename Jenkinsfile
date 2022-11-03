@@ -29,21 +29,20 @@ node {
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
             docker.image('composer').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
-                //stage("Install dependencies") {
-                //    sh "php composer.phar install"
-                //}
-
                 stage("Install dependencies") {
                     sh "composer install"
                     sh "composer config --no-plugins allow-plugins.cyclonedx/cyclonedx-php-composer true"
                     sh "composer require --dev cyclonedx/cyclonedx-php-composer"
                 }
 
-                stage("Install dependencies") {
-                        sh "composer make-bom --exclude-dev"
+                stage("generate SBOM") {
+                    sh "composer make-bom --exclude-dev"
                 }
-
-
+            }
+        } else if (BUILD_TOOL == 'DOCKER')  {
+            def image docker.build("")
+            image.inside("") {
+                sh "curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin"
             }
         } else {
             echo "Linguagem não suportada"
