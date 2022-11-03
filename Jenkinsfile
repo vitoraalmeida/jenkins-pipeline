@@ -40,7 +40,7 @@ node {
                 }
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
-            sh "docker run anchore/syft vitoralmeida/forum -o cyclonedx-xml > bom.xml"
+            sh "docker run anchore/syft vitoraalmeida/forum -o cyclonedx-xml > bom.xml"
             sh "cat ./bom.xml"
             
         } else {
