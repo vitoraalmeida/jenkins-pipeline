@@ -11,6 +11,7 @@ properties(
                     choices: ['GRADLE', 'COMPOSER', 'DOCKER'],
                     name: 'BUILD_TOOL'
                 ),
+                string(name: 'IMAGE'),
         ])   
     ]
 )  
@@ -40,7 +41,7 @@ node {
                 }
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
-            sh "docker run anchore/syft vitoraalmeida/forum -o cyclonedx-xml > bom.xml"
+            sh "docker run anchore/syft ${IMAGE} -o cyclonedx-xml > bom.xml"
             sh "cat ./bom.xml"
             
         } else {
