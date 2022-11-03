@@ -41,7 +41,7 @@ node {
                 }
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
-            sh "docker run anchore/syft ${IMAGE} -o cyclonedx-xml > bom.xml"
+            sh "docker run anchore/syft ${IMAGE} -o cyclonedx-json > bom.json"
             sh "cat ./bom.xml"
             
         } else {
@@ -94,6 +94,6 @@ def getBomLocation() {
     } else if (BUILD_TOOL == 'COMPOSER') {
         return "./bom.xml"
     } else {
-        return "./bom.xml" 
+        return "./bom.json" 
     }
 }
