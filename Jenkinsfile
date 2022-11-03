@@ -41,9 +41,8 @@ node {
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
             def image = docker.build("forum")
-            image.inside {
-                sh "curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin"
-            }
+            sh "curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin"
+            
         } else {
             echo "Linguagem não suportada"
         }
