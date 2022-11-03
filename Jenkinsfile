@@ -40,8 +40,8 @@ node {
                 }
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
-            def image = docker.build("forum:forum")
-            sh "docker run anchore/syft forum:forum"
+            sh "docker run anchore/syft vitoralmeida/forum -o cyclonedx-xml > bom.xml"
+            sh "cat ./bom.xml"
             
         } else {
             echo "Linguagem não suportada"
@@ -93,6 +93,6 @@ def getBomLocation() {
     } else if (BUILD_TOOL == 'COMPOSER') {
         return "./bom.xml"
     } else {
-        echo "Linguagem não suportada"
+        return "./bom.xml" 
     }
 }
