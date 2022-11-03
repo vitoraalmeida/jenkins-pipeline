@@ -1,5 +1,5 @@
 GRADLE = "./gradlew" //caminho para binário do gradle
-DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.103:8081/api/v1/bom"
+DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.104:8081/api/v1/bom"
 VERSION_FILE_GRADLE = "./gradle.properties"
 
 properties(
