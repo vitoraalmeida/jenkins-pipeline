@@ -42,7 +42,6 @@ node {
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
             sh "docker run anchore/syft ${IMAGE} -o cyclonedx-json > bom.json"
-            sh "cat ./bom.xml"
             
         } else {
             echo "Linguagem não suportada"
