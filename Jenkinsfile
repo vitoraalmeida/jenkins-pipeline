@@ -41,7 +41,7 @@ node {
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
             def image = docker.build("forum:forum")
-            docker.image("anchore/syft").inside("forum:forum") {}
+            docker.image("anchore/syft").withRun("-c forum:forum") {}
             
         } else {
             echo "Linguagem não suportada"
