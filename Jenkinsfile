@@ -8,7 +8,7 @@ properties(
                 string(name: 'ORG'),
                 string(name: 'PROJECT'),
                 choice(
-                    choices: ['GRADLE', 'COMPOSER'],
+                    choices: ['GRADLE', 'COMPOSER', 'DOCKER'],
                     name: 'BUILD_TOOL'
                 ),
         ])   
