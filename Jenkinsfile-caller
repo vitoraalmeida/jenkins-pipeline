@@ -1,5 +1,6 @@
-projects = """forum
-leilao"""
+projects = """
+
+"""
 
 properties(
     [
