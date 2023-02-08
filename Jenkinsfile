@@ -29,9 +29,8 @@ node {
             echo "Executando cyclonedxBom em ${PROJECT}"
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
-            docker.image('composer').inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
+            docker.image(IMAGE).inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
                 stage("Install dependencies") {
-                    sh "composer install"
                     sh "composer config --no-plugins allow-plugins.cyclonedx/cyclonedx-php-composer true"
                     sh "composer require --dev cyclonedx/cyclonedx-php-composer"
                 }
@@ -42,7 +41,6 @@ node {
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
             sh "docker run anchore/syft ${IMAGE} -o cyclonedx-json > bom.json"
-            
         } else {
             echo "Linguagem não suportada"
         }
