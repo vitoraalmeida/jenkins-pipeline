@@ -32,6 +32,7 @@ node {
                 sh "ls"
                 sh "DOCKER_BUILDKIT=1 docker build --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
                 sh "ls"
+                sh "cat bom.xml"
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
             sh "docker run anchore/syft ${IMAGE} -o cyclonedx-json > bom.json"
