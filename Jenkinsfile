@@ -49,6 +49,7 @@ node {
                  "FILE=${getBomLocation()}",
                  "VERSION=${getVersion()}",]){
             withCredentials([string(credentialsId: 'dtrack', variable: 'KEY')]) {
+                sh "$FILE"
                 sh('curl -X POST -H accept:application/json -H Content-Type:multipart/form-data -H X-API-KEY:$KEY -F autoCreate=True -F projectName=$ORG-$PROJECT -F projectVersion=$VERSION -F bom=@$FILE $URL')
             }
         }
