@@ -19,6 +19,7 @@ properties(
 node {
     cleanWs()
     def PROJECT = params.PROJECT
+    sh "docker build ."
     stage ('clone repos') {
         echo "Clonando ${PROJECT}"
         git branch: 'main', url: "https://github.com/${ORG}/${PROJECT}"
@@ -29,7 +30,6 @@ node {
             echo "Executando cyclonedxBom em ${PROJECT}"
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
-            sh "docker build ."
             docker.image(IMAGE).inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
                 stage("Install dependencies") {
                     sh "composer config --no-plugins allow-plugins.cyclonedx/cyclonedx-php-composer true"
