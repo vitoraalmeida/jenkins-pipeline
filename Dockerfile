@@ -1,4 +1,5 @@
-FROM php:7.2
+ARG MY_IMAGE
+FROM $MY_IMAGE
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
