@@ -93,7 +93,7 @@ def getBomLocation() {
     if (BUILD_TOOL == 'GRADLE') {
         return "./build/reports/bom.xml"
     } else if (BUILD_TOOL == 'COMPOSER') {
-        return "./bom.xml"
+        return "./jenkins-pipeline/bom.xml"
     } else {
         return "./bom.json" 
     }
