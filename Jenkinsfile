@@ -21,9 +21,10 @@ node {
     def PROJECT = params.PROJECT
     stage ('clone pipeline repo') {
         sh "git clone https://github.com/vitoraalmeida/jenkins-pipeline"
-        dir("jenkins-pipeline")
-        sh "ls"
-        sh "docker build --build-arg MY_IMAGE=php:7.2 ."
+        dir("jenkins-pipeline") {
+            sh "ls"
+            sh "docker build --build-arg MY_IMAGE=php:7.2 ."
+        }
     }
 
     stage ('clone repos') {
