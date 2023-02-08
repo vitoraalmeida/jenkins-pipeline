@@ -19,7 +19,11 @@ properties(
 node {
     cleanWs()
     def PROJECT = params.PROJECT
-    sh "docker build ."
+    stage ('clone pipeline repo') {
+        sh "git clone https://github.com/vitoraalmeida/jenkins-pipeline"
+        sh "ls"
+    }
+
     stage ('clone repos') {
         echo "Clonando ${PROJECT}"
         git branch: 'main', url: "https://github.com/${ORG}/${PROJECT}"
