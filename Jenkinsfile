@@ -1,6 +1,7 @@
 GRADLE = "./gradlew" //caminho para binário do gradle
 DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.104:8081/api/v1/bom"
 VERSION_FILE_GRADLE = "./gradle.properties"
+VERSION_FILE_COMPOSER = "./composer.json"
 
 properties(
     [
@@ -11,7 +12,7 @@ properties(
                     choices: ['GRADLE', 'COMPOSER', 'DOCKER'],
                     name: 'BUILD_TOOL'
                 ),
-                string(name: 'IMAGE'),
+                string(name: 'PHP_VERSION'),
         ])   
     ]
 )  
@@ -30,7 +31,7 @@ node {
             sh "git clone https://github.com/vitoraalmeida/jenkins-pipeline"
             dir("jenkins-pipeline") {
                 sh "ls"
-                sh "DOCKER_BUILDKIT=1 docker build --build-arg MY_IMAGE=php:8.0.2 --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
+                sh "DOCKER_BUILDKIT=1 docker build --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
                 sh "ls"
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
@@ -76,7 +77,14 @@ def getVersionGradle() {
 }
 
 def getVersionComposer() {
-    return "1.0"
+    def lines = readFile(VERSION_FILE_COMPOSER).split("\n")
+    def result = "not_found"
+    for (line in lines) {
+        if (line.contains('"php": "')) {
+            result = line.split(">=")[1].trim()
+        }
+    }
+    print(result)
 }
 
 def getBomLocation() {
