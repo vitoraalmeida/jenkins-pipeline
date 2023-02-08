@@ -85,7 +85,7 @@ def getVersionComposer() {
             result = line.split(">=")[1].trim()
         }
     }
-    print(result)
+    return "1.0"
 }
 
 def getBomLocation() {
