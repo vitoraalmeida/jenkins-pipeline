@@ -1,7 +1,6 @@
 GRADLE = "./gradlew" //caminho para binário do gradle
 DEPENDENCY_TRACK_UPLOAD_URL = "http://192.168.0.104:8081/api/v1/bom"
 VERSION_FILE_GRADLE = "./gradle.properties"
-VERSION_FILE_COMPOSER = "./composer.json"
 
 properties(
     [
@@ -78,6 +77,7 @@ def getVersionGradle() {
 }
 
 def getVersionComposer() {
+/*
     def lines = readFile(VERSION_FILE_COMPOSER).split("\n")
     def result = "not_found"
     for (line in lines) {
@@ -85,6 +85,7 @@ def getVersionComposer() {
             result = line.split(">=")[1].trim()
         }
     }
+    */
     return "1.0"
 }
 
