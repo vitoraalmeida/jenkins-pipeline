@@ -19,33 +19,19 @@ properties(
 node {
     cleanWs()
     def PROJECT = params.PROJECT
-    stage ('clone pipeline repo') {
-        sh "git clone https://github.com/vitoraalmeida/jenkins-pipeline"
-        dir("jenkins-pipeline") {
-            sh "ls"
-            sh "docker build --build-arg MY_IMAGE=php:7.2 ."
-        }
-    }
-
-    stage ('clone repos') {
-        echo "Clonando ${PROJECT}"
-        git branch: 'main', url: "https://github.com/${ORG}/${PROJECT}"
-    }
 
     stage ('execute cyclonedxBom') {
         if (BUILD_TOOL == 'GRADLE') {
+            echo "Clonando ${PROJECT}"
+            git branch: 'main', url: "https://github.com/${ORG}/${PROJECT}"
             echo "Executando cyclonedxBom em ${PROJECT}"
             sh "${GRADLE} --no-daemon cyclonedxBom -info"
         } else if (BUILD_TOOL == 'COMPOSER') {
-            docker.image(IMAGE).inside("-e COMPOSER_HOME=/tmp/jenkins-workspace") {
-                stage("Install dependencies") {
-                    sh "composer config --no-plugins allow-plugins.cyclonedx/cyclonedx-php-composer true"
-                    sh "composer require --dev cyclonedx/cyclonedx-php-composer"
-                }
-
-                stage("generate SBOM") {
-                    sh "composer make-bom --exclude-dev"
-                }
+            sh "git clone https://github.com/vitoraalmeida/jenkins-pipeline"
+            dir("jenkins-pipeline") {
+                sh "ls"
+                sh "DOCKER_BUILDKIT=1 docker build --build-arg MY_IMAGE=php:8.0.2 --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
+                sh "ls"
             }
         } else if (BUILD_TOOL == 'DOCKER')  {
             sh "docker run anchore/syft ${IMAGE} -o cyclonedx-json > bom.json"
