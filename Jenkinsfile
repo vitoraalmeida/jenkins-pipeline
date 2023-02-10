@@ -29,8 +29,13 @@ node {
         } else if (BUILD_TOOL == 'COMPOSER') {
             sh "git clone https://github.com/vitoraalmeida/jenkins-pipeline"
             dir("jenkins-pipeline") {
+                sh "git clone https://github.com/${ORG}/${PROJECT}"
                 sh "ls"
-                sh "DOCKER_BUILDKIT=1 docker build --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
+                if $(dpkg --compare-versions "${PHP_VERSION}" "lt" "7.2.5") { 
+                    sh "DOCKER_BUILDKIT=1 docker build -f ./Dockerfile.composer-old --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
+                } else {
+                    sh "DOCKER_BUILDKIT=1 docker build -f ./Dockerfile.composer-latest --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
+                }
                 sh "ls"
                 sh "cat bom.xml"
             }
