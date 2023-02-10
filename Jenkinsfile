@@ -32,13 +32,13 @@ node {
                 sh "git clone https://github.com/${ORG}/${PROJECT}"
                 sh "ls"
                 OLDER = sh(
-                    script: "if dpkg --compare-versions '${PHP_VERSION}' 'lt' '3'; then echo true; else echo false; fi",
+                    script: "if dpkg --compare-versions '${PHP_VERSION}' 'lt' '7.2.5'; then echo true; else echo false; fi",
                     returnStdout: true
                 )
                 if (OLDER == 'true') { 
-                    sh "DOCKER_BUILDKIT=1 docker build -f ./Dockerfile.composer-old --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
+                    sh "DOCKER_BUILDKIT=1 docker build -f ./Dockerfile.composer-old --build-arg PHPVERSION=${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
                 } else {
-                    sh "DOCKER_BUILDKIT=1 docker build -f ./Dockerfile.composer-latest --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
+                    sh "DOCKER_BUILDKIT=1 docker build -f ./Dockerfile.composer-latest --build-arg PHPVERSION=${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
                 }
                 sh "ls"
                 sh "cat bom.xml"
