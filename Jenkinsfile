@@ -32,7 +32,7 @@ node {
                 sh "git clone https://github.com/${ORG}/${PROJECT}"
                 sh "ls"
                 OLDER = sh(
-                    script: "if $(dpkg --compare-versions '${PHP_VERSION}' 'lt' '3'); then echo true; else echo false; fi",
+                    script: "if dpkg --compare-versions '${PHP_VERSION}' 'lt' '3'; then echo true; else echo false; fi",
                     returnStdout: true
                 )
                 if ($OLDER == 'true') { 
