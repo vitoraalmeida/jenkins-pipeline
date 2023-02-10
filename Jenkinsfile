@@ -32,7 +32,7 @@ node {
                 sh "git clone https://github.com/${ORG}/${PROJECT}"
                 sh "ls"
                 sh "dpkg --compare-versions '${PHP_VERSION}' 'lt' '7.2.5'"
-                def OLDER = $?
+                def OLDER = sh "$?"
                 if ($OLDER == 0) { 
                     sh "DOCKER_BUILDKIT=1 docker build -f ./Dockerfile.composer-old --build-arg MY_IMAGE=php:${PHP_VERSION} --build-arg REPO='${PROJECT}' --build-arg ORG='${ORG}' --output . . "
                 } else {
